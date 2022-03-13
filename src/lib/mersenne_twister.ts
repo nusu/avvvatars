@@ -122,23 +122,23 @@ MersenneTwister.prototype.genrand_int32 = function () {
   /* mag01[x] = x * MATRIX_A  for x=0,1 */
 
   if (this.mti >= this.N) { /* generate N words at one time */
-      var kk;
+    var kk;
 
-      if (this.mti === this.N + 1) {   /* if init_genrand() has not been called, */
-          this.init_genrand(5489); /* a default initial seed is used */
-      }
-      for (kk = 0; kk < this.N - this.M; kk++) {
-          y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk + 1]&this.LOWER_MASK);
-          this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];
-      }
-      for (;kk < this.N - 1; kk++) {
-          y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk + 1]&this.LOWER_MASK);
-          this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];
-      }
-      y = (this.mt[this.N - 1]&this.UPPER_MASK)|(this.mt[0]&this.LOWER_MASK);
-      this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
+    if (this.mti === this.N + 1) {   /* if init_genrand() has not been called, */
+        this.init_genrand(5489); /* a default initial seed is used */
+    }
+    for (kk = 0; kk < this.N - this.M; kk++) {
+        y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk + 1]&this.LOWER_MASK);
+        this.mt[kk] = this.mt[kk + this.M] ^ (y >>> 1) ^ mag01[y & 0x1];
+    }
+    for (;kk < this.N - 1; kk++) {
+        y = (this.mt[kk]&this.UPPER_MASK)|(this.mt[kk + 1]&this.LOWER_MASK);
+        this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ (y >>> 1) ^ mag01[y & 0x1];
+    }
+    y = (this.mt[this.N - 1]&this.UPPER_MASK)|(this.mt[0]&this.LOWER_MASK);
+    this.mt[this.N - 1] = this.mt[this.M - 1] ^ (y >>> 1) ^ mag01[y & 0x1];
 
-      this.mti = 0;
+    this.mti = 0;
   }
 
   y = this.mt[this.mti++];
