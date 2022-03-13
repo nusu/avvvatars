@@ -6,16 +6,16 @@ import Shape, { ShapeNames } from './shape/Shape'
 const DEFAULT_SIZE = 32;
 
 const BACKGROUND_COLORS = [
-	'F7F9FC',
-	'EEEDFD',
-	'FFEBEE',
-	'FDEFE2',
-	'E7F9F3',
-	'EDEEFD',
-	'ECFAFE',
-	'F2FFD1',
-	'FFF7E0',
-	'FDF1F7',
+  'F7F9FC',
+  'EEEDFD',
+  'FFEBEE',
+  'FDEFE2',
+  'E7F9F3',
+  'EDEEFD',
+  'ECFAFE',
+  'F2FFD1',
+  'FFF7E0',
+  'FDF1F7',
   'EAEFE6',
   'E0E6EB',
   'E4E2F3',
@@ -29,8 +29,8 @@ const BACKGROUND_COLORS = [
 ]
 
 const TEXT_COLORS = [
-	'060A23',
-	'4409B9',
+  '060A23',
+  '4409B9',
   'BD0F2C',
   'C56511',
   '216E55',
@@ -52,16 +52,16 @@ const TEXT_COLORS = [
 ]
 
 const SHAPE_COLORS = [
-	'060A23',
-	'5E36F5',
-	'E11234',
-	'E87917',
-	'3EA884',
-	'0618BC',
-	'0FBBE6',
-	'87B80A',
-	'FFC933',
-	'EE77AF',
+  '060A23',
+  '5E36F5',
+  'E11234',
+  'E87917',
+  '3EA884',
+  '0618BC',
+  '0FBBE6',
+  '87B80A',
+  'FFC933',
+  'EE77AF',
   '69785E',
   '2D3A46',
   '280F6D',
@@ -74,7 +74,7 @@ const SHAPE_COLORS = [
   '192251'
 ]
 
-const Wrapper = styled.div<{size: number, color: string, shadow?: boolean}>`
+const Wrapper = styled.div<{ size: number, color: string, shadow?: boolean }>`
   width: ${p => p.size || DEFAULT_SIZE}px;
   height: ${p => p.size || DEFAULT_SIZE}px;
   border-radius: ${p => p.size || DEFAULT_SIZE}px;
@@ -98,7 +98,7 @@ const Wrapper = styled.div<{size: number, color: string, shadow?: boolean}>`
 `
 
 // implement size
-const Text = styled.p<{color: string, size: number}>`
+const Text = styled.p<{ color: string, size: number }>`
   /* Reset */
   margin: 0;
   padding: 0;
@@ -115,7 +115,8 @@ const Text = styled.p<{color: string, size: number}>`
 `
 
 type Style = 'character' | 'shape' | 'mixed'
-interface Params {
+interface Params
+{
   displayValue?: string
   // this should be unique to user, it can be email, user id, or full name
   value: string
@@ -124,17 +125,18 @@ interface Params {
   style?: Style
 }
 
-export default function Avvvatars(params: Params) {
-	const { style = "character", displayValue, value, size, shadow = false } = params
+export default function Avvvatars(params: Params)
+{
+  const { style = "character", displayValue, value, size, shadow = false } = params
 
   const name = displayValue ? `${displayValue.substring(0, 2)}` : `${value.substring(0, 2)}`;
 
-  let key = randiman({value, min: 0, max: 19});
-  let shapeKey = randiman({value, min:1, max: 60})
+  let key = randiman({ value, min: 0, max: 19 });
+  let shapeKey = randiman({ value, min: 1, max: 60 })
 
   return (
     <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} shadow={shadow}>
-      { style === 'character' ? 
+      {style === 'character' ?
         <Text color={TEXT_COLORS[key]} size={size || DEFAULT_SIZE}>{name}</Text>
         :
         <Shape name={`Shape${shapeKey}` as ShapeNames} color={SHAPE_COLORS[key]} size={Math.round((size || DEFAULT_SIZE) / 100 * 50)} />
