@@ -18,9 +18,9 @@ Built by [Nusu Alabuga](https://twitter.com/nusualabuga) and [Oguz Yagiz Kara](h
 
 - 🌈 **40 Colors** - Colors are so on point that most of the projects can use it without changing it
 - 💠 **60 Shapes** - Beautifully crafted shapes that are unique to your user with color combination
-- 🆎  **Text or Shapes** 🔸 - ****Use letters (eg. JD for John Doe) or unique shapes
-- 🤠 **Unique to user** - ****Generated avatars are unique to the string that you provide, it means if you pass janedoe@gmail.com you will always get the same avatar
-- 🕊 **Lightweight** - ****less than 20kb compressed + gzipped
+- 🆎 **Text or Shapes** 🔸 - Use letters (eg. JD for John Doe) or unique shapes
+- 🤠 **Unique to user** - Generated avatars are unique to the string that you provide, it means if you pass janedoe@gmail.com you will always get the same avatar
+- 🕊 **Lightweight** - less than 20kb compressed + gzipped
 - ✍️ **Customizable** - use shadows, change size, provide alternative text to display
 
 ## Installation
@@ -53,7 +53,7 @@ export default function MyAvatar() {
 
 ## Customization
 
-### value: string
+### `value: string`
 
 This is required for plugin to work, each value generates a random avatar to unique to this value, so each time plugin renders, you will get the same results. 
 
@@ -61,7 +61,7 @@ This is required for plugin to work, each value generates a random avatar to uni
 <Avvvatars value="best_user@gmail.com" />
 ```
 
-### displayValue?: string
+### `displayValue?: string`
 
 Override default text by providing displayValue
 
@@ -71,7 +71,7 @@ for example if you provide `value=”best_user@gmail.com”` the character outpu
 <Avvvatars value="best_user@gmail.com" displayValue="BE" />
 ```
 
-### size?: number  (default 32)
+### `size?: number  (default 32)`
 
 Override default size (32px) by providing a number.
 
@@ -79,7 +79,7 @@ Override default size (32px) by providing a number.
 <Avvvatars value="best_user@gmail.com" size={32} />
 ```
 
-### shadow?: boolean  (default false)
+### `shadow?: boolean  (default false)`
 
 Enable shadow around the avatar.
 
@@ -87,7 +87,7 @@ Enable shadow around the avatar.
 <Avvvatars value="best_user@gmail.com" shadow={false} />
 ```
 
-### style?: character | shape  (default character)
+### `style?: character | shape  (default character)`
 
 Enable shadow around the avatar.
 
