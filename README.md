@@ -89,7 +89,7 @@ Enable shadow around the avatar.
 
 ### `style?: character | shape  (default character)`
 
-Enable shadow around the avatar.
+Use shape or character as avatar.
 
 ```jsx
 <Avvvatars value="best_user@gmail.com" style="character" />
