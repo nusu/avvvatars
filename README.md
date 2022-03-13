@@ -1,10 +1,8 @@
 <div align="center">
-  <img src="https://github.com/nusu/avvvatars/raw/main/thumbnail.png" alt="Avvvatars" height="540">
+  <img src="https://github.com/nusu/avvvatars/raw/main/thumbnail.png" alt="Avvvatars" height="464">
 </div>
 
 # Avvvatars
-
----
 
 Beautifully crafted unique avatar placeholder for your next react project
 
@@ -18,8 +16,6 @@ Built by [Nusu Alabuga](https://twitter.com/nusualabuga) and [Oguz Yagiz Kara](h
 
 ## Features
 
----
-
 - 🌈 **40 Colors** - Colors are so on point that most of the projects can use it without changing it
 - 💠 **60 Shapes** - Beautifully crafted shapes that are unique to your user with color combination
 - 🆎  **Text or Shapes** 🔸 - ****Use letters (eg. JD for John Doe) or unique shapes
@@ -28,8 +24,6 @@ Built by [Nusu Alabuga](https://twitter.com/nusualabuga) and [Oguz Yagiz Kara](h
 - ✍️ **Customizable** - use shadows, change size, provide alternative text to display
 
 ## Installation
-
----
 
 **With yarn**
 
@@ -45,8 +39,6 @@ npm install avvvatars-react
 
 ## Getting Started
 
----
-
 Import Avvvatars to your app, then use it anywhere you want.
 
 ```jsx
@@ -60,8 +52,6 @@ export default function MyAvatar() {
 ```
 
 ## Customization
-
----
 
 ### value: string
 
