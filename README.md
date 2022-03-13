@@ -122,7 +122,7 @@ Override border color
 
 ## Figma
 
-If you want to access design files to change something or customize it to your own, use our [Figma File](https://www.figma.com/file/Yy0HrZrp4ue7N1II5bnqW0/Avvvatars.com---Open-Source-React-UI-Avatar-Library-(Community)?node-id=1%3A2086)
+If you want to access design files to change something or customize it to your own, use our [Figma File](https://www.figma.com/community/file/1084861895116393858/Avvvatars.com---Open-Source-React-UI-Avatar-Library-(Community))
 
 ## License
 
