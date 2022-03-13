@@ -1,7 +1,9 @@
 import * as React from 'react';
-import styled from 'styled-components'
 import randiman from './lib/random'
 import Shape, { ShapeNames } from './shape/Shape'
+import { styled, setup } from 'goober'
+
+setup(React.createElement);
 
 const DEFAULT_SIZE = 32;
 
@@ -73,13 +75,28 @@ const SHAPE_COLORS = [
   '222A54',
   '192251'
 ]
+interface WrapperProps {
+  size: number
+  color: string
 
-const Wrapper = styled.div<{ size: number, color: string, shadow?: boolean }>`
+  shadow?: boolean
+
+  border?: boolean
+  borderSize?: number
+  borderColor?: string
+}
+
+const Wrapper = styled('div')<WrapperProps>`
   width: ${p => p.size || DEFAULT_SIZE}px;
   height: ${p => p.size || DEFAULT_SIZE}px;
   border-radius: ${p => p.size || DEFAULT_SIZE}px;
   background-color: #${p => p.color};
-  border: 2px solid #fff;
+
+  ${ p => p.border &&
+  `border: ${p.borderSize || 2}px solid ${p.borderColor || '#fff'};`
+  }
+
+  box-sizing: border-box;
 
   display: flex;
   justify-content: center;
@@ -98,7 +115,7 @@ const Wrapper = styled.div<{ size: number, color: string, shadow?: boolean }>`
 `
 
 // implement size
-const Text = styled.p<{ color: string, size: number }>`
+const Text = styled('p')<{ color: string, size: number }>`
   /* Reset */
   margin: 0;
   padding: 0;
@@ -114,7 +131,7 @@ const Text = styled.p<{ color: string, size: number }>`
   font-weight: 500;
 `
 
-type Style = 'character' | 'shape' | 'mixed'
+type Style = 'character' | 'shape'
 interface Params
 {
   displayValue?: string
@@ -123,11 +140,16 @@ interface Params
   size?: number
   shadow?: boolean
   style?: Style
+
+  // toggle border
+  border?: boolean
+  borderSize?: number
+  borderColor?: string
 }
 
 export default function Avvvatars(params: Params)
 {
-  const { style = "character", displayValue, value, size, shadow = false } = params
+  const { style = "character", displayValue, value, size, shadow = false, border = false, ...rest } = params
 
   const name = displayValue ? `${displayValue.substring(0, 2)}` : `${value.substring(0, 2)}`;
 
@@ -135,7 +157,7 @@ export default function Avvvatars(params: Params)
   let shapeKey = randiman({ value, min: 1, max: 60 })
 
   return (
-    <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} shadow={shadow}>
+    <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} shadow={shadow} border={border} {...rest}>
       {style === 'character' ?
         <Text color={TEXT_COLORS[key]} size={size || DEFAULT_SIZE}>{name}</Text>
         :

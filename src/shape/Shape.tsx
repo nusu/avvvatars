@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ComponentType } from 'react'
-import styled from 'styled-components'
+import { styled } from 'goober'
 import * as shapes from './shapes'
 import { ShapeProps } from './shapes'
 
@@ -15,7 +15,7 @@ export interface Props {
   color: string
 }
 
-export const ShapeWrapper = styled.span<Props>`
+export const ShapeWrapper = styled('span')<Props>`
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
@@ -31,7 +31,7 @@ export default function Shape(props: Props){
   const Tag = (shapes as ShapeList)[name]
 
   if(!Tag) {
-    // shape don't exists
+    // shape doen't exists
     return null
   }
 

@@ -1,5 +1,6 @@
+
 <div align="center">
-  <img src="https://github.com/nusu/avvvatars/raw/main/thumbnail.png" alt="Avvvatars" height="464">
+  <a href="https://avvvatars.com"><img src="https://github.com/nusu/avvvatars/raw/main/thumbnail.png" alt="Avvvatars" height="464"></a>
 </div>
 
 # Avvvatars
@@ -71,6 +72,14 @@ for example if you provide `value=”best_user@gmail.com”` the character outpu
 <Avvvatars value="best_user@gmail.com" displayValue="BE" />
 ```
 
+### `style?: character | shape  (default character)`
+
+Use shape or character as avatar.
+
+```jsx
+<Avvvatars value="best_user@gmail.com" style="character" />
+```
+
 ### `size?: number  (default 32)`
 
 Override default size (32px) by providing a number.
@@ -87,12 +96,28 @@ Enable shadow around the avatar.
 <Avvvatars value="best_user@gmail.com" shadow={false} />
 ```
 
-### `style?: character | shape  (default character)`
+### `border?: boolean  (default false)`
 
-Use shape or character as avatar.
+Toggle border
 
 ```jsx
-<Avvvatars value="best_user@gmail.com" style="character" />
+<Avvvatars value="best_user@gmail.com" border={false} />
+```
+
+### `borderSize?: number  (default 2)`
+
+Override border width
+
+```jsx
+<Avvvatars value="best_user@gmail.com" borderSize={2} />
+```
+
+### `borderColor?: string  (default #fff)`
+
+Override border color
+
+```jsx
+<Avvvatars value="best_user@gmail.com" borderColor="#fff" />
 ```
 
 ## Figma
