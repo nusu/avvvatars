@@ -9,7 +9,9 @@ Beautifully crafted unique avatar placeholder for your next react project
 
 Lightweight and customizable ❤️
 
-[Website 🧘‍♀️](https://avvvatars.com)
+https://user-images.githubusercontent.com/1702215/158075475-c23004ab-827a-45ad-bdba-aee29ac5b582.mp4
+
+[Live Demo 🧩](https://avvvatars-demo-nusualabuga.vercel.app/) | [Website 🧘‍♀️](https://avvvatars.com)
 
 Built by [Nusu Alabuga](https://twitter.com/nusualabuga) and [Oguz Yagiz Kara](https://twitter.com/oguzyagizkara)
 
