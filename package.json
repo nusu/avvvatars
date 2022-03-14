@@ -1,6 +1,6 @@
 {
   "name": "avvvatars-react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "generates unique placeholder avatars with either characters or shapes for your react project",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -18,12 +18,12 @@
   "devDependencies": {
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "typescript": "^3.7.4",
     "tsdx": "^0.14.1"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0",
-    "react-dom": ">= 16.8.0",
-    "typescript": "^3.7.4"
+    "react": ">= 16",
+    "react-dom": ">= 16"
   },
   "dependencies": {
     "goober": "^2.1.8"

@@ -1060,7 +1060,13 @@ function Shape(props) {
 var _excluded = ["style", "displayValue", "value", "size", "shadow", "border"];
 
 var _templateObject$1, _templateObject2;
-goober.setup(React.createElement);
+goober.setup(React.createElement, undefined, undefined, function (props) {
+  for (var prop in props) {
+    if (prop[0] === '$') {
+      delete props[prop];
+    }
+  }
+});
 var DEFAULT_SIZE = 32;
 var BACKGROUND_COLORS = ['F7F9FC', 'EEEDFD', 'FFEBEE', 'FDEFE2', 'E7F9F3', 'EDEEFD', 'ECFAFE', 'F2FFD1', 'FFF7E0', 'FDF1F7', 'EAEFE6', 'E0E6EB', 'E4E2F3', 'E6DFEC', 'E2F4E8', 'E6EBEF', 'EBE6EF', 'E8DEF6', 'D8E8F3', 'ECE1FE'];
 var TEXT_COLORS = ['060A23', '4409B9', 'BD0F2C', 'C56511', '216E55', '05128A', '1F84A3', '526E0C', '935F10', '973562', '69785E', '2D3A46', '280F6D', '37364F', '363548', '4D176E', 'AB133E', '420790', '222A54', '192251'];
@@ -1074,9 +1080,9 @@ var Wrapper = /*#__PURE__*/goober.styled('div')(_templateObject$1 || (_templateO
 }, function (p) {
   return p.color;
 }, function (p) {
-  return p.border && "border: " + (p.borderSize || 2) + "px solid " + (p.borderColor || '#fff') + ";";
+  return p.$border && "border: " + (p.borderSize || 2) + "px solid " + (p.borderColor || '#fff') + ";";
 }, function (p) {
-  return p.shadow && "\n    box-shadow: \n      0px 3px 8px rgba(18, 18, 18, 0.04),  \n      0px 1px 1px rgba(18, 18, 18, 0.02);\n  ";
+  return p.$shadow && "\n    box-shadow: \n      0px 3px 8px rgba(18, 18, 18, 0.04),  \n      0px 1px 1px rgba(18, 18, 18, 0.02);\n  ";
 });
 var Text = /*#__PURE__*/goober.styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  /* Reset */\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n\n  font-family: -apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto;\n\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
   return Math.round(p.size / 100 * 37);
@@ -1109,8 +1115,8 @@ function Avvvatars(params) {
   return React.createElement(Wrapper, Object.assign({
     size: size || DEFAULT_SIZE,
     color: BACKGROUND_COLORS[key],
-    shadow: shadow,
-    border: border
+    "$shadow": shadow,
+    "$border": border
   }, rest), style === 'character' ? React.createElement(Text, {
     color: TEXT_COLORS[key],
     size: size || DEFAULT_SIZE

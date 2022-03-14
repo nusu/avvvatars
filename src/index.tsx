@@ -3,7 +3,13 @@ import randiman from './lib/random'
 import Shape, { ShapeNames } from './shape/Shape'
 import { styled, setup } from 'goober'
 
-setup(React.createElement);
+setup(React.createElement, undefined, undefined, (props: any) => {
+  for (let prop in props) {
+      if (prop[0] === '$') {
+          delete props[prop];
+      }
+  }
+});
 
 const DEFAULT_SIZE = 32;
 
@@ -79,9 +85,9 @@ interface WrapperProps {
   size: number
   color: string
 
-  shadow?: boolean
+  $shadow?: boolean
 
-  border?: boolean
+  $border?: boolean
   borderSize?: number
   borderColor?: string
 }
@@ -92,7 +98,7 @@ const Wrapper = styled('div')<WrapperProps>`
   border-radius: ${p => p.size || DEFAULT_SIZE}px;
   background-color: #${p => p.color};
 
-  ${ p => p.border &&
+  ${ p => p.$border &&
   `border: ${p.borderSize || 2}px solid ${p.borderColor || '#fff'};`
   }
 
@@ -107,7 +113,7 @@ const Wrapper = styled('div')<WrapperProps>`
     z-index: 3;
   }
 
-  ${p => p.shadow && `
+  ${p => p.$shadow && `
     box-shadow: 
       0px 3px 8px rgba(18, 18, 18, 0.04),  
       0px 1px 1px rgba(18, 18, 18, 0.02);
@@ -157,7 +163,7 @@ export default function Avvvatars(params: Params)
   let shapeKey = randiman({ value, min: 1, max: 60 })
 
   return (
-    <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} shadow={shadow} border={border} {...rest}>
+    <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} $shadow={shadow} $border={border} {...rest}>
       {style === 'character' ?
         <Text color={TEXT_COLORS[key]} size={size || DEFAULT_SIZE}>{name}</Text>
         :
