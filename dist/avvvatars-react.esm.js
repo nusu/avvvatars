@@ -19,21 +19,6 @@ function _extends() {
   return _extends.apply(this, arguments);
 }
 
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
-
 function _taggedTemplateLiteralLoose(strings, raw) {
   if (!raw) {
     raw = strings.slice(0);
@@ -252,6 +237,10 @@ function randomNumber(opts) {
     max: max
   });
 }
+
+var BACKGROUND_COLORS = ['F7F9FC', 'EEEDFD', 'FFEBEE', 'FDEFE2', 'E7F9F3', 'EDEEFD', 'ECFAFE', 'F2FFD1', 'FFF7E0', 'FDF1F7', 'EAEFE6', 'E0E6EB', 'E4E2F3', 'E6DFEC', 'E2F4E8', 'E6EBEF', 'EBE6EF', 'E8DEF6', 'D8E8F3', 'ECE1FE'];
+var TEXT_COLORS = ['060A23', '4409B9', 'BD0F2C', 'C56511', '216E55', '05128A', '1F84A3', '526E0C', '935F10', '973562', '69785E', '2D3A46', '280F6D', '37364F', '363548', '4D176E', 'AB133E', '420790', '222A54', '192251'];
+var SHAPE_COLORS = ['060A23', '5E36F5', 'E11234', 'E87917', '3EA884', '0618BC', '0FBBE6', '87B80A', 'FFC933', 'EE77AF', '69785E', '2D3A46', '280F6D', '37364F', '363548', '4D176E', 'AB133E', '420790', '222A54', '192251'];
 
 var defaultProps = {
   viewBox: '0 0 32 32',
@@ -1053,8 +1042,6 @@ function Shape(props) {
   }));
 }
 
-var _excluded = ["style", "displayValue", "value", "size", "shadow", "border"];
-
 var _templateObject$1, _templateObject2;
 setup(createElement, undefined, undefined, function (props) {
   for (var prop in props) {
@@ -1063,20 +1050,24 @@ setup(createElement, undefined, undefined, function (props) {
     }
   }
 });
-var DEFAULT_SIZE = 32;
-var BACKGROUND_COLORS = ['F7F9FC', 'EEEDFD', 'FFEBEE', 'FDEFE2', 'E7F9F3', 'EDEEFD', 'ECFAFE', 'F2FFD1', 'FFF7E0', 'FDF1F7', 'EAEFE6', 'E0E6EB', 'E4E2F3', 'E6DFEC', 'E2F4E8', 'E6EBEF', 'EBE6EF', 'E8DEF6', 'D8E8F3', 'ECE1FE'];
-var TEXT_COLORS = ['060A23', '4409B9', 'BD0F2C', 'C56511', '216E55', '05128A', '1F84A3', '526E0C', '935F10', '973562', '69785E', '2D3A46', '280F6D', '37364F', '363548', '4D176E', 'AB133E', '420790', '222A54', '192251'];
-var SHAPE_COLORS = ['060A23', '5E36F5', 'E11234', 'E87917', '3EA884', '0618BC', '0FBBE6', '87B80A', 'FFC933', 'EE77AF', '69785E', '2D3A46', '280F6D', '37364F', '363548', '4D176E', 'AB133E', '420790', '222A54', '192251'];
+var DEFAULTS = {
+  style: "character",
+  size: 32,
+  shadow: false,
+  border: false,
+  borderSize: 2,
+  borderColor: "#fff"
+};
 var Wrapper = /*#__PURE__*/styled('div')(_templateObject$1 || (_templateObject$1 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  width: ", "px;\n  height: ", "px;\n  border-radius: ", "px;\n  background-color: #", ";\n\n  ", "\n\n  box-sizing: border-box;\n\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  user-select: none;\n\n  &:hover {\n    z-index: 3;\n  }\n\n  ", "\n"])), function (p) {
-  return p.size || DEFAULT_SIZE;
+  return p.size;
 }, function (p) {
-  return p.size || DEFAULT_SIZE;
+  return p.size;
 }, function (p) {
-  return p.size || DEFAULT_SIZE;
+  return p.size;
 }, function (p) {
   return p.color;
 }, function (p) {
-  return p.$border && "border: " + (p.borderSize || 2) + "px solid " + (p.borderColor || '#fff') + ";";
+  return p.$border && "border: " + p.$borderSize + "px solid " + p.$borderColor + ";";
 }, function (p) {
   return p.$shadow && "\n    box-shadow: \n      0px 3px 8px rgba(18, 18, 18, 0.04),  \n      0px 1px 1px rgba(18, 18, 18, 0.02);\n  ";
 });
@@ -1087,17 +1078,20 @@ var Text = /*#__PURE__*/styled('p')(_templateObject2 || (_templateObject2 = /*#_
 });
 function Avvvatars(params) {
   var _params$style = params.style,
-      style = _params$style === void 0 ? "character" : _params$style,
+      style = _params$style === void 0 ? DEFAULTS.style : _params$style,
       displayValue = params.displayValue,
       value = params.value,
-      size = params.size,
+      _params$size = params.size,
+      size = _params$size === void 0 ? DEFAULTS.size : _params$size,
       _params$shadow = params.shadow,
-      shadow = _params$shadow === void 0 ? false : _params$shadow,
+      shadow = _params$shadow === void 0 ? DEFAULTS.shadow : _params$shadow,
       _params$border = params.border,
-      border = _params$border === void 0 ? false : _params$border,
-      rest = _objectWithoutPropertiesLoose(params, _excluded);
-
-  var name = displayValue ? "" + displayValue.substring(0, 2) : "" + value.substring(0, 2);
+      border = _params$border === void 0 ? DEFAULTS.border : _params$border,
+      _params$borderSize = params.borderSize,
+      borderSize = _params$borderSize === void 0 ? DEFAULTS.borderSize : _params$borderSize,
+      _params$borderColor = params.borderColor,
+      borderColor = _params$borderColor === void 0 ? DEFAULTS.borderColor : _params$borderColor;
+  var name = String(displayValue || value).substring(0, 2);
   var key = randomNumber({
     value: value,
     min: 0,
@@ -1108,18 +1102,20 @@ function Avvvatars(params) {
     min: 1,
     max: 60
   });
-  return createElement(Wrapper, Object.assign({
-    size: size || DEFAULT_SIZE,
+  return createElement(Wrapper, {
+    size: size,
     color: BACKGROUND_COLORS[key],
     "$shadow": shadow,
-    "$border": border
-  }, rest), style === 'character' ? createElement(Text, {
+    "$border": border,
+    "$borderSize": borderSize,
+    "$borderColor": borderColor
+  }, style === 'character' ? createElement(Text, {
     color: TEXT_COLORS[key],
-    size: size || DEFAULT_SIZE
+    size: size
   }, name) : createElement(Shape, {
     name: "Shape" + shapeKey,
     color: SHAPE_COLORS[key],
-    size: Math.round((size || DEFAULT_SIZE) / 100 * 50)
+    size: Math.round(size / 100 * 50)
   }));
 }
 
