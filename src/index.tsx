@@ -32,12 +32,13 @@ interface WrapperProps {
   $border?: boolean
   $borderSize?: number
   $borderColor?: string
+  $radius?: number
 }
 
 const Wrapper = styled('div')<WrapperProps>`
   width: ${p => p.size}px;
   height: ${p => p.size}px;
-  border-radius: ${p => p.size}px;
+  border-radius: ${p => p.$radius ? p.$radius : p.size}px;
   background-color: #${p => p.color};
 
   ${ p => p.$border &&
@@ -93,6 +94,7 @@ interface Params
   border?: boolean
   borderSize?: number
   borderColor?: string
+  radius?: number
 }
 
 export default function Avvvatars(params: Params)
@@ -101,6 +103,7 @@ export default function Avvvatars(params: Params)
     style = DEFAULTS.style,
     displayValue, 
     value, 
+    radius,
     size = DEFAULTS.size, 
     shadow = DEFAULTS.shadow, 
     border = DEFAULTS.border, 
@@ -125,6 +128,7 @@ export default function Avvvatars(params: Params)
       $border={border} 
       $borderSize={borderSize}
       $borderColor={borderColor}
+      $radius={radius}
     >
       {style === 'character' ?
         <Text 

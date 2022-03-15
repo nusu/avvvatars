@@ -9,6 +9,7 @@ interface Params {
     border?: boolean;
     borderSize?: number;
     borderColor?: string;
+    radius?: number;
 }
 export default function Avvvatars(params: Params): JSX.Element;
 export {};
