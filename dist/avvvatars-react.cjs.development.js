@@ -1057,7 +1057,7 @@ function Shape(props) {
   }));
 }
 
-var _excluded = ["style", "displayValue", "value", "size", "shadow", "border"];
+var _excluded = ["style", "colorPalette", "displayValue", "value", "size", "shadow", "border"];
 
 var _templateObject$1, _templateObject2;
 goober.setup(React.createElement, undefined, undefined, function (props) {
@@ -1092,6 +1092,7 @@ var Text = /*#__PURE__*/goober.styled('p')(_templateObject2 || (_templateObject2
 function Avvvatars(params) {
   var _params$style = params.style,
       style = _params$style === void 0 ? "character" : _params$style,
+      colorPalette = params.colorPalette,
       displayValue = params.displayValue,
       value = params.value,
       size = params.size,
@@ -1105,7 +1106,7 @@ function Avvvatars(params) {
   var key = randomNumber({
     value: value,
     min: 0,
-    max: 19
+    max: colorPalette ? colorPalette.length - 1 : 19
   });
   var shapeKey = randomNumber({
     value: value,
@@ -1114,7 +1115,7 @@ function Avvvatars(params) {
   });
   return React.createElement(Wrapper, Object.assign({
     size: size || DEFAULT_SIZE,
-    color: BACKGROUND_COLORS[key],
+    color: colorPalette ? colorPalette[key] : BACKGROUND_COLORS[key],
     "$shadow": shadow,
     "$border": border
   }, rest), style === 'character' ? React.createElement(Text, {

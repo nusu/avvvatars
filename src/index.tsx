@@ -146,6 +146,7 @@ interface Params
   size?: number
   shadow?: boolean
   style?: Style
+  colorPalette?: string[]
 
   // toggle border
   border?: boolean
@@ -155,15 +156,15 @@ interface Params
 
 export default function Avvvatars(params: Params)
 {
-  const { style = "character", displayValue, value, size, shadow = false, border = false, ...rest } = params
+  const { style = "character", colorPalette, displayValue, value, size, shadow = false, border = false, ...rest } = params
 
   const name = displayValue ? `${displayValue.substring(0, 2)}` : `${value.substring(0, 2)}`;
 
-  let key = randiman({ value, min: 0, max: 19 });
+  let key = randiman({ value, min: 0, max: colorPalette ? colorPalette.length - 1  : 19 });
   let shapeKey = randiman({ value, min: 1, max: 60 })
 
   return (
-    <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} $shadow={shadow} $border={border} {...rest}>
+    <Wrapper size={size || DEFAULT_SIZE} color={colorPalette ? colorPalette[key] : BACKGROUND_COLORS[key]} $shadow={shadow} $border={border} {...rest}>
       {style === 'character' ?
         <Text color={TEXT_COLORS[key]} size={size || DEFAULT_SIZE}>{name}</Text>
         :

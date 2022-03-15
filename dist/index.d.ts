@@ -6,6 +6,7 @@ interface Params {
     size?: number;
     shadow?: boolean;
     style?: Style;
+    colorPalette?: string[];
     border?: boolean;
     borderSize?: number;
     borderColor?: string;
