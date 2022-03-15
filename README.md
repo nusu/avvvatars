@@ -122,6 +122,14 @@ Override border color
 <Avvvatars value="best_user@gmail.com" borderColor="#fff" />
 ```
 
+### `colorPalette?: array `
+
+Override border color
+
+```jsx
+<Avvvatars value="best_user@gmail.com" colorPalette={['fff', 'B7CADB', 'B7CADB', '9254C8']} />
+```
+
 ## Figma
 
 If you want to access design files to change something or customize it to your own, use our [Figma File](https://www.figma.com/community/file/1084861895116393858/Avvvatars.com---Open-Source-React-UI-Avatar-Library-(Community))
