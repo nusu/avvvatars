@@ -1076,7 +1076,7 @@ var Wrapper = /*#__PURE__*/goober.styled('div')(_templateObject$1 || (_templateO
 }, function (p) {
   return p.size || DEFAULT_SIZE;
 }, function (p) {
-  return p.size || DEFAULT_SIZE;
+  return p.borderRadius || p.size || DEFAULT_SIZE;
 }, function (p) {
   return p.color;
 }, function (p) {
@@ -1113,6 +1113,7 @@ function Avvvatars(params) {
     max: 60
   });
   return React.createElement(Wrapper, Object.assign({
+    borderRadius: params.borderRadius,
     size: size || DEFAULT_SIZE,
     color: BACKGROUND_COLORS[key],
     "$shadow": shadow,

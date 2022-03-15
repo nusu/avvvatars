@@ -90,12 +90,13 @@ interface WrapperProps {
   $border?: boolean
   borderSize?: number
   borderColor?: string
+  borderRadius?: number
 }
 
 const Wrapper = styled('div')<WrapperProps>`
   width: ${p => p.size || DEFAULT_SIZE}px;
   height: ${p => p.size || DEFAULT_SIZE}px;
-  border-radius: ${p => p.size || DEFAULT_SIZE}px;
+  border-radius: ${p => p.borderRadius || p.size || DEFAULT_SIZE}px;
   background-color: #${p => p.color};
 
   ${ p => p.$border &&
@@ -151,6 +152,7 @@ interface Params
   border?: boolean
   borderSize?: number
   borderColor?: string
+  borderRadius?: number
 }
 
 export default function Avvvatars(params: Params)
@@ -163,7 +165,7 @@ export default function Avvvatars(params: Params)
   let shapeKey = randiman({ value, min: 1, max: 60 })
 
   return (
-    <Wrapper size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} $shadow={shadow} $border={border} {...rest}>
+    <Wrapper borderRadius={params.borderRadius} size={size || DEFAULT_SIZE} color={BACKGROUND_COLORS[key]} $shadow={shadow} $border={border} {...rest}>
       {style === 'character' ?
         <Text color={TEXT_COLORS[key]} size={size || DEFAULT_SIZE}>{name}</Text>
         :
