@@ -98,6 +98,14 @@ Enable shadow around the avatar.
 <Avvvatars value="best_user@gmail.com" shadow={false} />
 ```
 
+### `radius?: number` (default [size](https://github.com/nusu/avvvatars#size-number--default-32))
+
+Override the radius of the avatar, it takes `size` by default to always turn it to a circle
+
+```jsx
+<Avvvatars value="best_user@gmail.com" radius={10} />
+```
+
 ### `border?: boolean  (default false)`
 
 Toggle border
@@ -120,14 +128,6 @@ Override border color
 
 ```jsx
 <Avvvatars value="best_user@gmail.com" borderColor="#fff" />
-```
-
-### `radius?: number` (default [size](https://github.com/nusu/avvvatars#size-number--default-32))
-
-"Override the radius of the avatar, it takes `size` by default to always turn it to a circle"
-
-```jsx
-<Avvvatars value="best_user@gmail.com" radius={10} />
 ```
 
 ## Figma

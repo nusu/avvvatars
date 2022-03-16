@@ -38,7 +38,7 @@ interface WrapperProps {
 const Wrapper = styled('div')<WrapperProps>`
   width: ${p => p.size}px;
   height: ${p => p.size}px;
-  border-radius: ${p => p.$radius ? p.$radius : p.size}px;
+  border-radius: ${p => p.$radius || p.size}px;
   background-color: #${p => p.color};
 
   ${ p => p.$border &&
