@@ -1063,7 +1063,7 @@ var Wrapper = /*#__PURE__*/styled('div')(_templateObject$1 || (_templateObject$1
 }, function (p) {
   return p.size;
 }, function (p) {
-  return p.size;
+  return p.$radius ? p.$radius : p.size;
 }, function (p) {
   return p.color;
 }, function (p) {
@@ -1081,6 +1081,7 @@ function Avvvatars(params) {
       style = _params$style === void 0 ? DEFAULTS.style : _params$style,
       displayValue = params.displayValue,
       value = params.value,
+      radius = params.radius,
       _params$size = params.size,
       size = _params$size === void 0 ? DEFAULTS.size : _params$size,
       _params$shadow = params.shadow,
@@ -1108,7 +1109,8 @@ function Avvvatars(params) {
     "$shadow": shadow,
     "$border": border,
     "$borderSize": borderSize,
-    "$borderColor": borderColor
+    "$borderColor": borderColor,
+    "$radius": radius
   }, style === 'character' ? createElement(Text, {
     color: TEXT_COLORS[key],
     size: size
