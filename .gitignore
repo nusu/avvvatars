@@ -9,3 +9,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# https://github.com/sindresorhus/ama/issues/479#issuecomment-310661514
+# lockfiles
+package-lock.json
+yarn.lock
