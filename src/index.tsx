@@ -71,7 +71,7 @@ const Text = styled('p')<{ color: string, size: number }>`
   text-align: center;
   box-sizing: border-box;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
 
   font-size: ${p => Math.round(p.size / 100 * 37)}px;
   color: #${p => p.color};
