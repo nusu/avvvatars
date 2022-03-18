@@ -1,9 +1,10 @@
 {
   "name": "avvvatars-react",
-  "version": "0.3.1",
+  "version": "0.4.2",
   "description": "generates unique placeholder avatars with either characters or shapes for your react project",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "module": "dist/avvvatars-react.esm.js",
   "scripts": {
     "build": "tsdx build"
   },

@@ -1063,7 +1063,7 @@ var Wrapper = /*#__PURE__*/styled('div')(_templateObject$1 || (_templateObject$1
 }, function (p) {
   return p.size;
 }, function (p) {
-  return p.$radius ? p.$radius : p.size;
+  return p.$radius || p.size;
 }, function (p) {
   return p.color;
 }, function (p) {
@@ -1071,7 +1071,7 @@ var Wrapper = /*#__PURE__*/styled('div')(_templateObject$1 || (_templateObject$1
 }, function (p) {
   return p.$shadow && "\n    box-shadow: \n      0px 3px 8px rgba(18, 18, 18, 0.04),  \n      0px 1px 1px rgba(18, 18, 18, 0.02);\n  ";
 });
-var Text = /*#__PURE__*/styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  /* Reset */\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n\n  font-family: -apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto;\n\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
+var Text = /*#__PURE__*/styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  /* Reset */\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n\n  font-family: -apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto, sans-serif;\n\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
   return Math.round(p.size / 100 * 37);
 }, function (p) {
   return p.color;
