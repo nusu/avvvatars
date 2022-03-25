@@ -130,6 +130,14 @@ Override border color
 <Avvvatars value="best_user@gmail.com" borderColor="#fff" />
 ```
 
+### `fontFamily?: string  (default -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif)`
+
+Override font family
+
+```jsx
+<Avvvatars value="best_user@gmail.com" fontFamily="Verdana,sans-serif" />
+```
+
 ## Figma
 
 If you want to access design files to change something or customize it to your own, use our [Figma File](https://www.figma.com/community/file/1084861895116393858/Avvvatars.com---Open-Source-React-UI-Avatar-Library-(Community))
