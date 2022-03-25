@@ -1058,6 +1058,7 @@ var DEFAULTS = {
   style: "character",
   size: 32,
   shadow: false,
+  fontFamily: "-apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto, sans-serif",
   border: false,
   borderSize: 2,
   borderColor: "#fff"
@@ -1075,7 +1076,9 @@ var Wrapper = /*#__PURE__*/goober.styled('div')(_templateObject$1 || (_templateO
 }, function (p) {
   return p.$shadow && "\n    box-shadow: \n      0px 3px 8px rgba(18, 18, 18, 0.04),  \n      0px 1px 1px rgba(18, 18, 18, 0.02);\n  ";
 });
-var Text = /*#__PURE__*/goober.styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  /* Reset */\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n\n  font-family: -apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto, sans-serif;\n\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
+var Text = /*#__PURE__*/goober.styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  /* Reset */\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n\n  font-family: ", ";\n\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
+  return p.fontFamily;
+}, function (p) {
   return Math.round(p.size / 100 * 37);
 }, function (p) {
   return p.color;
@@ -1095,7 +1098,9 @@ function Avvvatars(params) {
       _params$borderSize = params.borderSize,
       borderSize = _params$borderSize === void 0 ? DEFAULTS.borderSize : _params$borderSize,
       _params$borderColor = params.borderColor,
-      borderColor = _params$borderColor === void 0 ? DEFAULTS.borderColor : _params$borderColor;
+      borderColor = _params$borderColor === void 0 ? DEFAULTS.borderColor : _params$borderColor,
+      _params$fontFamily = params.fontFamily,
+      fontFamily = _params$fontFamily === void 0 ? DEFAULTS.fontFamily : _params$fontFamily;
   var name = String(displayValue || value).substring(0, 2);
   var key = randomNumber({
     value: value,
@@ -1107,6 +1112,7 @@ function Avvvatars(params) {
     min: 1,
     max: 60
   });
+  console.log(fontFamily);
   return React.createElement(Wrapper, {
     size: size,
     color: BACKGROUND_COLORS[key],
@@ -1117,7 +1123,8 @@ function Avvvatars(params) {
     "$radius": radius
   }, style === 'character' ? React.createElement(Text, {
     color: TEXT_COLORS[key],
-    size: size
+    size: size,
+    fontFamily: fontFamily
   }, name) : React.createElement(Shape, {
     name: "Shape" + shapeKey,
     color: SHAPE_COLORS[key],

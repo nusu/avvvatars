@@ -17,6 +17,7 @@ const DEFAULTS = {
   style: "character",
   size: 32,
   shadow: false,
+  fontFamily: `-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif`,
   
   border: false,
   borderSize: 2,
@@ -64,14 +65,14 @@ const Wrapper = styled('div')<WrapperProps>`
 `
 
 // implement size
-const Text = styled('p')<{ color: string, size: number }>`
+const Text = styled('p')<{ color: string, size: number, fontFamily: string }>`
   /* Reset */
   margin: 0;
   padding: 0;
   text-align: center;
   box-sizing: border-box;
 
-  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+  font-family: ${p => p.fontFamily};
 
   font-size: ${p => Math.round(p.size / 100 * 37)}px;
   color: #${p => p.color};
@@ -89,6 +90,7 @@ interface Params
   size?: number
   shadow?: boolean
   style?: Style
+  fontFamily?: string
 
   // toggle border
   border?: boolean
@@ -108,7 +110,8 @@ export default function Avvvatars(params: Params)
     shadow = DEFAULTS.shadow, 
     border = DEFAULTS.border, 
     borderSize = DEFAULTS.borderSize,
-    borderColor = DEFAULTS.borderColor
+    borderColor = DEFAULTS.borderColor,
+    fontFamily = DEFAULTS.fontFamily
   } = params
 
   // get first two letters
@@ -119,6 +122,8 @@ export default function Avvvatars(params: Params)
   const key = randiman({ value, min: 0, max: 19 });
   // there is 60 shapes so generate between 1 and 60
   const shapeKey = randiman({ value, min: 1, max: 60 })
+
+  console.log(fontFamily)
 
   return (
     <Wrapper 
@@ -134,6 +139,7 @@ export default function Avvvatars(params: Params)
         <Text 
           color={TEXT_COLORS[key]}
           size={size}
+          fontFamily={fontFamily}
         >
           {name}
         </Text>
