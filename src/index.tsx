@@ -15,11 +15,11 @@ setup(React.createElement, undefined, undefined, (props: any) => {
 
 const DEFAULTS = {
   style: "character",
-  size: 32,
+  size: 2,
   shadow: false,
   
   border: false,
-  borderSize: 2,
+  borderSize: 0.125,
   borderColor: "#fff"
 }
 
@@ -36,13 +36,13 @@ interface WrapperProps {
 }
 
 const Wrapper = styled('div')<WrapperProps>`
-  width: ${p => p.size}px;
-  height: ${p => p.size}px;
-  border-radius: ${p => p.$radius || p.size}px;
+  width: ${p => p.size}rem;
+  height: ${p => p.size}rem;
+  border-radius: ${p => p.$radius || p.size}rem;
   background-color: #${p => p.color};
 
   ${ p => p.$border &&
-  `border: ${p.$borderSize}px solid ${p.$borderColor};`
+  `border: ${p.$borderSize}rem solid ${p.$borderColor};`
   }
 
   box-sizing: border-box;
@@ -73,7 +73,7 @@ const Text = styled('p')<{ color: string, size: number }>`
 
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
 
-  font-size: ${p => Math.round(p.size / 100 * 37)}px;
+  font-size: ${p => p.size / 100 * 37}rem;
   color: #${p => p.color};
   line-height: 0;
   text-transform: uppercase;
@@ -141,7 +141,7 @@ export default function Avvvatars(params: Params)
         <Shape 
           name={`Shape${shapeKey}` as ShapeNames}
           color={SHAPE_COLORS[key]}
-          size={Math.round((size) / 100 * 50)}
+          size={(size) / 100 * 50}
         />
       }
     </Wrapper>
