@@ -82,12 +82,12 @@ Use shape or character as avatar.
 <Avvvatars value="best_user@gmail.com" style="character" />
 ```
 
-### `size?: number  (default 32)`
+### `size?: number  (default 2)`
 
-Override default size (32px) by providing a number.
+Override default size (2rem) by providing a number.
 
 ```jsx
-<Avvvatars value="best_user@gmail.com" size={32} />
+<Avvvatars value="best_user@gmail.com" size={2} />
 ```
 
 ### `shadow?: boolean  (default false)`
@@ -98,12 +98,12 @@ Enable shadow around the avatar.
 <Avvvatars value="best_user@gmail.com" shadow={false} />
 ```
 
-### `radius?: number` (default [size](https://github.com/nusu/avvvatars#size-number--default-32))
+### `radius?: number` (default [size](https://github.com/nusu/avvvatars#size-number--default-2))
 
 Override the radius of the avatar, it takes `size` by default to always turn it to a circle
 
 ```jsx
-<Avvvatars value="best_user@gmail.com" radius={10} />
+<Avvvatars value="best_user@gmail.com" radius={0.5} />
 ```
 
 ### `border?: boolean  (default false)`
@@ -114,12 +114,12 @@ Toggle border
 <Avvvatars value="best_user@gmail.com" border={false} />
 ```
 
-### `borderSize?: number  (default 2)`
+### `borderSize?: number  (default 0.125)`
 
 Override border width
 
 ```jsx
-<Avvvatars value="best_user@gmail.com" borderSize={2} />
+<Avvvatars value="best_user@gmail.com" borderSize={0.125} />
 ```
 
 ### `borderColor?: string  (default #fff)`
