@@ -2,41 +2,31 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
-var React = require('react');
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var React = _interopDefault(require('react'));
 var goober = require('goober');
 
 function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
     }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
+    return n;
+  }, _extends.apply(null, arguments);
 }
-
-function _taggedTemplateLiteralLoose(strings, raw) {
-  if (!raw) {
-    raw = strings.slice(0);
-  }
-
-  strings.raw = raw;
-  return strings;
+function _objectDestructuringEmpty(t) {
+  if (null == t) throw new TypeError("Cannot destructure " + t);
+}
+function _taggedTemplateLiteralLoose(e, t) {
+  return t || (t = e.slice(0)), e.raw = t, e;
 }
 
 var MersenneTwister = function MersenneTwister(seed) {
   if (seed === undefined) {
     seed = Math.floor(Math.random() * Math.pow(10, 13));
   }
-
   this.N = 624;
   this.M = 397;
   this.MATRIX_A = 0x9908b0df;
@@ -46,83 +36,67 @@ var MersenneTwister = function MersenneTwister(seed) {
   this.mti = this.N + 1;
   this.init_genrand(seed);
 };
-
 MersenneTwister.prototype.init_genrand = function (s) {
   this.mt[0] = s >>> 0;
-
   for (this.mti = 1; this.mti < this.N; this.mti++) {
     s = this.mt[this.mti - 1] ^ this.mt[this.mti - 1] >>> 30;
     this.mt[this.mti] = (((s & 0xffff0000) >>> 16) * 1812433253 << 16) + (s & 0x0000ffff) * 1812433253 + this.mti;
     this.mt[this.mti] >>>= 0;
   }
 };
-
 MersenneTwister.prototype.init_by_array = function (init_key, key_length) {
   var i = 1,
-      j = 0,
-      k,
-      s;
+    j = 0,
+    k,
+    s;
   this.init_genrand(19650218);
   k = this.N > key_length ? this.N : key_length;
-
   for (; k; k--) {
     s = this.mt[i - 1] ^ this.mt[i - 1] >>> 30;
     this.mt[i] = (this.mt[i] ^ (((s & 0xffff0000) >>> 16) * 1664525 << 16) + (s & 0x0000ffff) * 1664525) + init_key[j] + j;
     this.mt[i] >>>= 0;
     i++;
     j++;
-
     if (i >= this.N) {
       this.mt[0] = this.mt[this.N - 1];
       i = 1;
     }
-
     if (j >= key_length) {
       j = 0;
     }
   }
-
   for (k = this.N - 1; k; k--) {
     s = this.mt[i - 1] ^ this.mt[i - 1] >>> 30;
     this.mt[i] = (this.mt[i] ^ (((s & 0xffff0000) >>> 16) * 1566083941 << 16) + (s & 0x0000ffff) * 1566083941) - i;
     this.mt[i] >>>= 0;
     i++;
-
     if (i >= this.N) {
       this.mt[0] = this.mt[this.N - 1];
       i = 1;
     }
   }
-
   this.mt[0] = 0x80000000;
 };
-
 MersenneTwister.prototype.genrand_int32 = function () {
   var y;
   var mag01 = new Array(0x0, this.MATRIX_A);
-
   if (this.mti >= this.N) {
     var kk;
-
     if (this.mti === this.N + 1) {
       this.init_genrand(5489);
     }
-
     for (kk = 0; kk < this.N - this.M; kk++) {
       y = this.mt[kk] & this.UPPER_MASK | this.mt[kk + 1] & this.LOWER_MASK;
       this.mt[kk] = this.mt[kk + this.M] ^ y >>> 1 ^ mag01[y & 0x1];
     }
-
     for (; kk < this.N - 1; kk++) {
       y = this.mt[kk] & this.UPPER_MASK | this.mt[kk + 1] & this.LOWER_MASK;
       this.mt[kk] = this.mt[kk + (this.M - this.N)] ^ y >>> 1 ^ mag01[y & 0x1];
     }
-
     y = this.mt[this.N - 1] & this.UPPER_MASK | this.mt[0] & this.LOWER_MASK;
     this.mt[this.N - 1] = this.mt[this.M - 1] ^ y >>> 1 ^ mag01[y & 0x1];
     this.mti = 0;
   }
-
   y = this.mt[this.mti++];
   y ^= y >>> 11;
   y ^= y << 7 & 0x9d2c5680;
@@ -130,26 +104,21 @@ MersenneTwister.prototype.genrand_int32 = function () {
   y ^= y >>> 18;
   return y >>> 0;
 };
-
 MersenneTwister.prototype.genrand_int31 = function () {
   return this.genrand_int32() >>> 1;
 };
-
 MersenneTwister.prototype.genrand_real1 = function () {
   return this.genrand_int32() * (1.0 / 4294967295.0);
 };
-
 MersenneTwister.prototype.random = function () {
   return this.genrand_int32() * (1.0 / 4294967296.0);
 };
-
 MersenneTwister.prototype.genrand_real3 = function () {
   return (this.genrand_int32() + 0.5) * (1.0 / 4294967296.0);
 };
-
 MersenneTwister.prototype.genrand_res53 = function () {
   var a = this.genrand_int32() >>> 5,
-      b = this.genrand_int32() >>> 6;
+    b = this.genrand_int32() >>> 6;
   return (a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
 };
 
@@ -162,26 +131,19 @@ var AleaGen = /*#__PURE__*/function () {
     this.s1 = mash(' ');
     this.s2 = mash(' ');
     this.s0 -= mash(seed);
-
     if (this.s0 < 0) {
       this.s0 += 1;
     }
-
     this.s1 -= mash(seed);
-
     if (this.s1 < 0) {
       this.s1 += 1;
     }
-
     this.s2 -= mash(seed);
-
     if (this.s2 < 0) {
       this.s2 += 1;
     }
-
     function mash(data) {
       data = String(data);
-
       for (var i = 0; i < data.length; i++) {
         n += data.charCodeAt(i);
         var h = 0.02519603282416938 * n;
@@ -192,24 +154,20 @@ var AleaGen = /*#__PURE__*/function () {
         h -= n;
         n += h * 0x100000000;
       }
-
       return (n >>> 0) * 2.3283064365386963e-10;
     }
   }
-
   var _proto = AleaGen.prototype;
-
   _proto.next = function next() {
     var c = this.c,
-        s0 = this.s0,
-        s1 = this.s1,
-        s2 = this.s2;
+      s0 = this.s0,
+      s1 = this.s1,
+      s2 = this.s2;
     var t = 2091639 * s0 + c * 2.3283064365386963e-10;
     this.s0 = s1;
     this.s1 = s2;
     return this.s2 = t - (this.c = t | 0);
   };
-
   _proto.copy = function copy(f, t) {
     t.c = f.c;
     t.s0 = f.s0;
@@ -217,21 +175,19 @@ var AleaGen = /*#__PURE__*/function () {
     t.s2 = f.s2;
     return t;
   };
-
   return AleaGen;
 }();
 
 function minMax(opts) {
   var random = opts.random,
-      min = opts.min,
-      max = opts.max;
+    min = opts.min,
+    max = opts.max;
   return Math.floor(random * (max - min + 1) + min);
 }
-
 function randomNumber(opts) {
   var value = opts.value,
-      min = opts.min,
-      max = opts.max;
+    min = opts.min,
+    max = opts.max;
   var prepareSeed = new AleaGen(value);
   var seedOutput = prepareSeed.s1 * 10000000;
   var mersenne = new MersenneTwister(seedOutput);
@@ -251,24 +207,21 @@ var defaultProps = {
   fill: 'none'
 };
 var Shape1 = function Shape1(_ref) {
-  var props = _extends({}, _ref);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref), _ref));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 0L19.856 9.32122L29.8565 8L23.712 16L29.8565 24L19.856 22.6787L16 32L12.144 22.6787L2.14359 24L8.28799 16L2.14359 8L12.144 9.32122L16 0Z",
     fill: "currentColor"
   }));
 };
 var Shape2 = function Shape2(_ref2) {
-  var props = _extends({}, _ref2);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref2), _ref2));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16.017 0L18.4 8.66546L25.4214 3.05573L22.256 11.467L31.2338 11.0557L23.729 16L31.2338 20.9443L22.256 20.533L25.4214 28.9443L18.4 23.3346L16.017 32L13.6338 23.3346L6.61234 28.9443L9.77776 20.533L0.800003 20.9443L8.30492 16L0.800003 11.0557L9.77776 11.467L6.61234 3.05573L13.6338 8.66546L16.017 0Z",
     fill: "currentColor"
   }));
 };
 var Shape3 = function Shape3(_ref3) {
-  var props = _extends({}, _ref3);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref3), _ref3));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4196)"
   }, React.createElement("path", {
@@ -283,16 +236,14 @@ var Shape3 = function Shape3(_ref3) {
   }))));
 };
 var Shape4 = function Shape4(_ref4) {
-  var props = _extends({}, _ref4);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref4), _ref4));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M14.9887 0.824754C15.5774 0.344629 16.4226 0.344629 17.0112 0.824754L18.2805 1.85999C18.68 2.18572 19.2118 2.29912 19.7093 2.16464L21.2862 1.73842C22.0186 1.54049 22.7891 1.88399 23.1315 2.56092L23.8766 4.03445C24.1086 4.49301 24.5466 4.81228 25.0541 4.89268L26.6747 5.14943C27.4214 5.26773 27.9835 5.89263 28.0222 6.64772L28.1075 8.31013C28.1338 8.82127 28.403 9.28903 28.8318 9.56852L30.2184 10.4723C30.8498 10.8839 31.1083 11.6805 30.8389 12.3845L30.2424 13.9434C30.0598 14.4203 30.116 14.9557 30.3933 15.3844L31.2989 16.7838C31.708 17.4163 31.6206 18.2485 31.089 18.7822L29.9162 19.9597C29.5555 20.3217 29.3894 20.8342 29.4694 21.339L29.7304 22.9869C29.8483 23.7323 29.4293 24.4589 28.725 24.7302L27.1874 25.3222C26.7088 25.5065 26.3475 25.909 26.2158 26.4046L25.7901 28.0075C25.5957 28.7397 24.9146 29.235 24.1582 29.1945L22.5248 29.1072C22.0107 29.0797 21.5149 29.3011 21.1923 29.7022L20.1622 30.9835C19.6864 31.5753 18.8602 31.7512 18.1845 31.4043L16.7307 30.6579C16.272 30.4226 15.728 30.4226 15.2693 30.6579L13.8154 31.4043C13.1399 31.7512 12.3136 31.5753 11.8378 30.9835L10.8077 29.7022C10.4851 29.3011 9.98927 29.0797 9.47524 29.1072L7.84177 29.1945C7.08544 29.235 6.40433 28.7397 6.2099 28.0075L5.78411 26.4046C5.65246 25.909 5.29123 25.5065 4.81267 25.3222L3.27505 24.7302C2.57065 24.4589 2.15163 23.7323 2.26968 22.9869L2.53059 21.339C2.61051 20.8342 2.44449 20.3217 2.08384 19.9597L0.910984 18.7822C0.379377 18.2485 0.292011 17.4163 0.701193 16.7838L1.60664 15.3844C1.88403 14.9557 1.94011 14.4203 1.75761 13.9434L1.16105 12.3845C0.891637 11.6805 1.15017 10.8839 1.78166 10.4723L3.16822 9.56852C3.59699 9.28903 3.86617 8.82127 3.8924 8.31013L3.97771 6.64772C4.01646 5.89263 4.57848 5.26773 5.32524 5.14943L6.94588 4.89268C7.4534 4.81228 7.89142 4.49301 8.12332 4.03445L8.86852 2.56092C9.21086 1.88399 9.9815 1.54049 10.7138 1.73842L12.2907 2.16464C12.7882 2.29912 13.3201 2.18572 13.7194 1.85999L14.9887 0.824754Z",
     fill: "currentColor"
   }));
 };
 var Shape5 = function Shape5(_ref5) {
-  var props = _extends({}, _ref5);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref5), _ref5));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4202)"
   }, React.createElement("path", {
@@ -307,8 +258,7 @@ var Shape5 = function Shape5(_ref5) {
   }))));
 };
 var Shape6 = function Shape6(_ref6) {
-  var props = _extends({}, _ref6);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref6), _ref6));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4205)"
   }, React.createElement("path", {
@@ -323,8 +273,7 @@ var Shape6 = function Shape6(_ref6) {
   }))));
 };
 var Shape7 = function Shape7(_ref7) {
-  var props = _extends({}, _ref7);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref7), _ref7));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -333,8 +282,7 @@ var Shape7 = function Shape7(_ref7) {
   }));
 };
 var Shape8 = function Shape8(_ref8) {
-  var props = _extends({}, _ref8);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref8), _ref8));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -343,16 +291,14 @@ var Shape8 = function Shape8(_ref8) {
   }));
 };
 var Shape9 = function Shape9(_ref9) {
-  var props = _extends({}, _ref9);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref9), _ref9));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16.0406 32C15.536 32 15.1094 31.6346 14.9872 31.145C14.5976 29.5845 13.8519 27.925 12.75 26.1667C11.4444 24.0555 9.58333 22.0973 7.16667 20.2917C5.06478 18.703 2.9629 17.6197 0.861021 17.0418C0.363208 16.905 0 16.4635 0 15.9472C0 15.4411 0.349237 15.0047 0.835957 14.8657C2.89672 14.2774 4.88195 13.3221 6.79166 12C8.98611 10.4722 10.8194 8.63888 12.2917 6.5C13.5941 4.59464 14.4881 2.71021 14.9738 0.846731C15.101 0.358552 15.5308 0 16.0354 0C16.5454 0 16.9782 0.366493 17.1024 0.861328C17.3827 1.97846 17.8208 3.12192 18.4166 4.29166C19.1667 5.73611 20.125 7.12499 21.2917 8.45834C22.4861 9.76389 23.8195 10.9444 25.2917 12C27.2155 13.3637 29.1712 14.3218 31.159 14.8742C31.6467 15.0097 32 15.4439 32 15.95C32 16.4637 31.636 16.9014 31.1406 17.0373C29.8806 17.3827 28.5837 17.9398 27.2501 18.7083C25.6389 19.6528 24.1389 20.7778 22.7499 22.0834C21.3611 23.3611 20.2222 24.7083 19.3333 26.125C18.2293 27.8869 17.4827 29.5592 17.0939 31.1422C16.9733 31.6333 16.5461 32 16.0406 32Z",
     fill: "currentColor"
   }));
 };
 var Shape10 = function Shape10(_ref10) {
-  var props = _extends({}, _ref10);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref10), _ref10));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -361,24 +307,21 @@ var Shape10 = function Shape10(_ref10) {
   }));
 };
 var Shape11 = function Shape11(_ref11) {
-  var props = _extends({}, _ref11);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref11), _ref11));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 32C14.6667 32 13.5556 31.5694 12.6667 30.7083C11.7778 29.8472 11.3333 28.8056 11.3333 27.5834C11.3333 26.889 11.4722 26.2638 11.75 25.7083C12.0278 25.1528 12.5139 24.5416 13.2083 23.875C13.9306 23.2083 14.5 22.5834 14.9167 22C15.3611 21.389 15.5833 20.8611 15.5833 20.4166V18.9166C14.9722 18.7778 14.4306 18.5 13.9583 18.0834C13.5139 17.6389 13.2222 17.111 13.0833 16.5H11.5833C11.1111 16.5 10.5556 16.7222 9.91667 17.1667C9.27778 17.611 8.66667 18.1528 8.08333 18.7917C7.5 19.4306 6.91667 19.9027 6.33333 20.2083C5.77778 20.5139 5.1389 20.6667 4.41667 20.6667C3.16667 20.6667 2.1111 20.2222 1.25 19.3333C0.416667 18.4445 0 17.3333 0 16C0 14.6667 0.416667 13.5556 1.25 12.6667C2.1111 11.7778 3.16667 11.3333 4.41667 11.3333C5.58333 11.3333 6.58333 11.75 7.41667 12.5833C8.25 13.4167 9 14.125 9.66667 14.7083C10.3333 15.2917 10.9722 15.5833 11.5833 15.5833H13.0833C13.2222 14.9444 13.5139 14.4167 13.9583 14C14.4306 13.5556 14.9722 13.2778 15.5833 13.1667V11.6667C15.5833 10.9444 15.0278 10.0278 13.9167 8.91667L13.0417 8.04166C11.9028 6.90278 11.3333 5.69445 11.3333 4.41667C11.3333 3.16667 11.7778 2.12499 12.6667 1.29167C13.5833 0.430555 14.6944 0 16 0C17.3333 0 18.4445 0.430555 19.3333 1.29167C20.2222 2.15278 20.6667 3.19445 20.6667 4.41667C20.6667 5.83333 19.9722 7.16667 18.5834 8.41667C17.1944 9.69445 16.5 10.7778 16.5 11.6667V13.1667C17.1389 13.2778 17.6667 13.5556 18.0834 14C18.5278 14.4167 18.8056 14.9444 18.9166 15.5833H20.4166C21.3611 15.5833 22.4445 14.875 23.6667 13.4583C24.9166 12.0417 26.2222 11.3333 27.5834 11.3333C28.8333 11.3333 29.875 11.7917 30.7083 12.7083C31.5694 13.5972 32 14.6944 32 16C32 17.3333 31.5694 18.4445 30.7083 19.3333C29.8472 20.2222 28.8056 20.6667 27.5834 20.6667C26.4166 20.6667 25.4306 20.2638 24.625 19.4584C23.8195 18.6528 23.0694 17.9584 22.375 17.375C21.6805 16.7917 21.0278 16.5 20.4166 16.5H18.9166C18.6944 17.8333 17.889 18.6389 16.5 18.9166V20.4166C16.5 21.2499 17.1944 22.3195 18.5834 23.625C19.9722 24.9306 20.6667 26.2499 20.6667 27.5834C20.6667 28.8333 20.2083 29.875 19.2917 30.7083C18.4027 31.5694 17.3056 32 16 32Z",
     fill: "currentColor"
   }));
 };
 var Shape12 = function Shape12(_ref12) {
-  var props = _extends({}, _ref12);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref12), _ref12));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 32C14.9444 32 13.9722 31.7362 13.0833 31.2083C12.2222 30.7083 11.5278 30.0278 11 29.1667C10.5 28.2778 10.25 27.3056 10.25 26.2499C10.25 24.9166 10.5556 23.8056 11.1667 22.9166C11.7778 22.0278 12.7222 20.9861 14 19.7917C14.9444 18.9306 15.4167 18.111 15.4167 17.3333V16.5834H14.6667C13.8056 16.5834 12.625 17.4445 11.125 19.1667C9.65278 20.889 7.8611 21.7499 5.75 21.7499C4.69445 21.7499 3.72222 21.5 2.83333 21C1.97222 20.4722 1.27778 19.7778 0.75 18.9166C0.25 18.0278 0 17.0555 0 16C0 14.9444 0.25 13.9861 0.75 13.125C1.27778 12.2361 1.97222 11.5417 2.83333 11.0417C3.72222 10.5139 4.69445 10.25 5.75 10.25C7.83333 10.25 9.6111 11.0972 11.0833 12.7917C12.5556 14.4861 13.75 15.3333 14.6667 15.3333H15.4167V14.6667C15.4167 13.8889 14.9444 13.0694 14 12.2083L13.0417 11.3333C12.3472 10.6944 11.7083 9.93056 11.125 9.04166C10.5417 8.12499 10.25 7.02778 10.25 5.75C10.25 4.69445 10.5 3.73611 11 2.87501C11.5278 1.98611 12.2222 1.29167 13.0833 0.791666C13.9722 0.263888 14.9444 0 16 0C17.0555 0 18.0139 0.263888 18.875 0.791666C19.7638 1.31944 20.4584 2.01389 20.9584 2.87501C21.4861 3.73611 21.7499 4.69445 21.7499 5.75C21.7499 7.83333 20.9027 9.6111 19.2083 11.0833C17.5139 12.5556 16.6667 13.75 16.6667 14.6667V15.3333H17.3333C18.2778 15.3333 19.4722 14.4861 20.9166 12.7917C22.3333 11.0972 24.111 10.25 26.2501 10.25C27.3056 10.25 28.2638 10.5139 29.125 11.0417C30.0139 11.5417 30.7083 12.2222 31.2083 13.0833C31.7362 13.9444 32 14.9167 32 16C32 17.0555 31.7362 18.0278 31.2083 18.9166C30.7083 19.7778 30.0139 20.4722 29.125 21C28.2638 21.5 27.3056 21.7499 26.2501 21.7499C24.9445 21.7499 23.8195 21.4306 22.875 20.7917C21.9584 20.1528 20.9306 19.2222 19.7917 18C18.9306 17.0555 18.111 16.5834 17.3333 16.5834H16.6667V17.3333C16.6667 18.3611 17.5139 19.5555 19.2083 20.9166C20.9027 22.2778 21.7499 24.0555 21.7499 26.2499C21.7499 27.3056 21.4861 28.2778 20.9584 29.1667C20.4584 30.0278 19.7778 30.7083 18.9166 31.2083C18.0555 31.7362 17.0834 32 16 32Z",
     fill: "currentColor"
   }));
 };
 var Shape13 = function Shape13(_ref13) {
-  var props = _extends({}, _ref13);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref13), _ref13));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -387,8 +330,7 @@ var Shape13 = function Shape13(_ref13) {
   }));
 };
 var Shape14 = function Shape14(_ref14) {
-  var props = _extends({}, _ref14);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref14), _ref14));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -397,8 +339,7 @@ var Shape14 = function Shape14(_ref14) {
   }));
 };
 var Shape15 = function Shape15(_ref15) {
-  var props = _extends({}, _ref15);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref15), _ref15));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4226)"
   }, React.createElement("path", {
@@ -415,8 +356,7 @@ var Shape15 = function Shape15(_ref15) {
   }))));
 };
 var Shape16 = function Shape16(_ref16) {
-  var props = _extends({}, _ref16);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref16), _ref16));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -425,8 +365,7 @@ var Shape16 = function Shape16(_ref16) {
   }));
 };
 var Shape17 = function Shape17(_ref17) {
-  var props = _extends({}, _ref17);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref17), _ref17));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -435,8 +374,7 @@ var Shape17 = function Shape17(_ref17) {
   }));
 };
 var Shape18 = function Shape18(_ref18) {
-  var props = _extends({}, _ref18);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref18), _ref18));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -445,8 +383,7 @@ var Shape18 = function Shape18(_ref18) {
   }));
 };
 var Shape19 = function Shape19(_ref19) {
-  var props = _extends({}, _ref19);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref19), _ref19));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -455,8 +392,7 @@ var Shape19 = function Shape19(_ref19) {
   }));
 };
 var Shape20 = function Shape20(_ref20) {
-  var props = _extends({}, _ref20);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref20), _ref20));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -465,8 +401,7 @@ var Shape20 = function Shape20(_ref20) {
   }));
 };
 var Shape21 = function Shape21(_ref21) {
-  var props = _extends({}, _ref21);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref21), _ref21));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -475,8 +410,7 @@ var Shape21 = function Shape21(_ref21) {
   }));
 };
 var Shape22 = function Shape22(_ref22) {
-  var props = _extends({}, _ref22);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref22), _ref22));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -485,24 +419,21 @@ var Shape22 = function Shape22(_ref22) {
   }));
 };
 var Shape23 = function Shape23(_ref23) {
-  var props = _extends({}, _ref23);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref23), _ref23));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 2L21.12 17.68L32 30L16 26.64L0 30L10.88 17.68L16 2Z",
     fill: "currentColor"
   }));
 };
 var Shape24 = function Shape24(_ref24) {
-  var props = _extends({}, _ref24);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref24), _ref24));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 0L20.5255 11.4745L32 16L20.5255 20.5255L16 32L11.4745 20.5255L0 16L11.4745 11.4745L16 0Z",
     fill: "currentColor"
   }));
 };
 var Shape25 = function Shape25(_ref25) {
-  var props = _extends({}, _ref25);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref25), _ref25));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -511,8 +442,7 @@ var Shape25 = function Shape25(_ref25) {
   }));
 };
 var Shape26 = function Shape26(_ref26) {
-  var props = _extends({}, _ref26);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref26), _ref26));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -521,8 +451,7 @@ var Shape26 = function Shape26(_ref26) {
   }));
 };
 var Shape27 = function Shape27(_ref27) {
-  var props = _extends({}, _ref27);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref27), _ref27));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4264)"
   }, React.createElement("path", {
@@ -539,16 +468,14 @@ var Shape27 = function Shape27(_ref27) {
   }))));
 };
 var Shape28 = function Shape28(_ref28) {
-  var props = _extends({}, _ref28);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref28), _ref28));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M24.9702 23.0298L17.9403 16L24.9702 8.97018L32 16L24.9702 23.0298ZM7.02982 23.0298L0 16L7.02982 8.97018L14.0596 16L7.02982 23.0298ZM16 32L8.97018 24.9702L16 17.9403L23.0298 24.9702L16 32ZM16 14.0596L8.97018 7.02982L16 0L23.0298 7.02982L16 14.0596Z",
     fill: "currentColor"
   }));
 };
 var Shape29 = function Shape29(_ref29) {
-  var props = _extends({}, _ref29);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref29), _ref29));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -557,8 +484,7 @@ var Shape29 = function Shape29(_ref29) {
   }));
 };
 var Shape30 = function Shape30(_ref30) {
-  var props = _extends({}, _ref30);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref30), _ref30));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4288)"
   }, React.createElement("path", {
@@ -575,8 +501,7 @@ var Shape30 = function Shape30(_ref30) {
   }))));
 };
 var Shape31 = function Shape31(_ref31) {
-  var props = _extends({}, _ref31);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref31), _ref31));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -585,8 +510,7 @@ var Shape31 = function Shape31(_ref31) {
   }));
 };
 var Shape32 = function Shape32(_ref32) {
-  var props = _extends({}, _ref32);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref32), _ref32));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -595,8 +519,7 @@ var Shape32 = function Shape32(_ref32) {
   }));
 };
 var Shape33 = function Shape33(_ref33) {
-  var props = _extends({}, _ref33);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref33), _ref33));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4302)"
   }, React.createElement("path", {
@@ -613,8 +536,7 @@ var Shape33 = function Shape33(_ref33) {
   }))));
 };
 var Shape34 = function Shape34(_ref34) {
-  var props = _extends({}, _ref34);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref34), _ref34));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4313)"
   }, React.createElement("path", {
@@ -631,8 +553,7 @@ var Shape34 = function Shape34(_ref34) {
   }))));
 };
 var Shape35 = function Shape35(_ref35) {
-  var props = _extends({}, _ref35);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref35), _ref35));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -641,8 +562,7 @@ var Shape35 = function Shape35(_ref35) {
   }));
 };
 var Shape36 = function Shape36(_ref36) {
-  var props = _extends({}, _ref36);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref36), _ref36));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4318)"
   }, React.createElement("path", {
@@ -657,16 +577,14 @@ var Shape36 = function Shape36(_ref36) {
   }))));
 };
 var Shape37 = function Shape37(_ref37) {
-  var props = _extends({}, _ref37);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref37), _ref37));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M23.3874 16C25.7899 15.5248 28.1539 14.3506 29.5963 12.8075L31.2339 11.0557L28.8794 10.6009C26.8054 10.2003 24.2027 10.64 21.9797 11.6678C23.6442 9.8711 24.8666 7.53162 25.1264 5.43546L25.4216 3.0557L23.2494 4.07174C21.3362 4.9667 19.489 6.85216 18.2944 8.99037C18.585 6.55851 18.1989 3.94731 17.177 2.09867L16.017 0L14.8569 2.09867C13.835 3.94731 13.4489 6.55851 13.7394 8.99037C12.545 6.85216 10.6977 4.96662 8.78445 4.07174L6.61232 3.0557L6.9074 5.43546C7.16733 7.53162 8.38973 9.8711 10.0542 11.6678C7.83114 10.64 5.22836 10.2004 3.15445 10.6009L0.800003 11.0557L2.43751 12.8075C3.87989 14.3506 6.24388 15.5248 8.64655 16C6.24396 16.4752 3.87989 17.6493 2.43751 19.1925L0.800003 20.9443L3.15445 21.399C5.22836 21.7997 7.83108 21.36 10.0542 20.3322C8.38973 22.129 7.16733 24.4683 6.9074 26.5645L6.61232 28.9442L8.78437 27.9283C10.6977 27.0333 12.5449 25.1478 13.7393 23.0096C13.4488 25.4414 13.8349 28.0526 14.8568 29.9013L16.0168 32L17.1768 29.9013C18.1987 28.0526 18.5848 25.4414 18.2944 23.0096C19.4888 25.1478 21.336 27.0334 23.2493 27.9283L25.4213 28.9442L25.1262 26.5645C24.8662 24.4683 23.6438 22.129 21.9795 20.3322C24.2026 21.36 26.8053 21.7995 28.8792 21.399L31.2336 20.9443L29.5962 19.1925C28.1539 17.6494 25.7899 16.4752 23.3874 16Z",
     fill: "currentColor"
   }));
 };
 var Shape38 = function Shape38(_ref38) {
-  var props = _extends({}, _ref38);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref38), _ref38));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -675,24 +593,21 @@ var Shape38 = function Shape38(_ref38) {
   }));
 };
 var Shape39 = function Shape39(_ref39) {
-  var props = _extends({}, _ref39);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref39), _ref39));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 0C16.5432 8.60154 23.3984 15.4568 32 16C23.3984 16.5432 16.5432 23.3984 16 32C15.4568 23.3984 8.60154 16.5432 0 16C8.60154 15.4568 15.4568 8.60154 16 0Z",
     fill: "currentColor"
   }));
 };
 var Shape40 = function Shape40(_ref40) {
-  var props = _extends({}, _ref40);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref40), _ref40));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M16 0C16.0022 5.90288 23.1381 8.85867 27.3138 4.68629C23.1413 8.86186 26.0971 15.9977 32 16C26.0971 16.0022 23.1413 23.1381 27.3138 27.3138C23.1381 23.1413 16.0022 26.0971 16 32C15.9977 26.0971 8.86186 23.1413 4.68629 27.3138C8.85867 23.1381 5.90288 16.0022 0 16C5.90288 15.9977 8.85867 8.86186 4.68629 4.68629C8.86186 8.85867 15.9977 5.90288 16 0Z",
     fill: "currentColor"
   }));
 };
 var Shape41 = function Shape41(_ref41) {
-  var props = _extends({}, _ref41);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref41), _ref41));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4344)"
   }, React.createElement("path", {
@@ -707,8 +622,7 @@ var Shape41 = function Shape41(_ref41) {
   }))));
 };
 var Shape42 = function Shape42(_ref42) {
-  var props = _extends({}, _ref42);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref42), _ref42));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4346)"
   }, React.createElement("path", {
@@ -723,8 +637,7 @@ var Shape42 = function Shape42(_ref42) {
   }))));
 };
 var Shape43 = function Shape43(_ref43) {
-  var props = _extends({}, _ref43);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref43), _ref43));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4349)"
   }, React.createElement("path", {
@@ -739,24 +652,21 @@ var Shape43 = function Shape43(_ref43) {
   }))));
 };
 var Shape44 = function Shape44(_ref44) {
-  var props = _extends({}, _ref44);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref44), _ref44));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M15.9992 32V23.035L0 15.9992H8.96501L15.9992 0V8.96501L32 15.9992H23.035L15.9992 32Z",
     fill: "currentColor"
   }));
 };
 var Shape45 = function Shape45(_ref45) {
-  var props = _extends({}, _ref45);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref45), _ref45));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M15.999 32V29.5102C7.84933 29.5102 0 24.1491 0 16H2.48792C2.48792 7.85085 7.84933 0 15.999 0V2.48979C24.1486 2.48979 32 7.85085 32 16H29.5122C29.5122 24.1491 24.1486 32 15.999 32Z",
     fill: "currentColor"
   }));
 };
 var Shape46 = function Shape46(_ref46) {
-  var props = _extends({}, _ref46);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref46), _ref46));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4355)"
   }, React.createElement("path", {
@@ -771,8 +681,7 @@ var Shape46 = function Shape46(_ref46) {
   }))));
 };
 var Shape47 = function Shape47(_ref47) {
-  var props = _extends({}, _ref47);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref47), _ref47));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4358)"
   }, React.createElement("path", {
@@ -787,40 +696,35 @@ var Shape47 = function Shape47(_ref47) {
   }))));
 };
 var Shape48 = function Shape48(_ref48) {
-  var props = _extends({}, _ref48);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref48), _ref48));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M25.3445 32C21.0315 24.6152 10.9685 24.6152 6.6556 32C8.98979 24.6152 7.38514 23.0107 0 25.3448C7.38514 21.032 7.38514 10.9696 0 6.65694C7.38514 8.98931 8.98979 7.38475 6.6556 0C10.9685 7.38475 21.0315 7.38475 25.3445 0C23.0118 7.38475 24.6166 8.98931 32 6.65694C24.6166 10.9696 24.6166 21.032 32 25.3448C24.6166 23.0107 23.0118 24.6152 25.3445 32Z",
     fill: "currentColor"
   }));
 };
 var Shape49 = function Shape49(_ref49) {
-  var props = _extends({}, _ref49);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref49), _ref49));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M26.435 30.7114C26.499 31.421 24.7251 32.3256 24.167 31.8826C19.3613 28.0686 12.6428 28.0677 7.83602 31.8795C7.27769 32.3222 5.50172 31.4162 5.56548 30.7066C5.85866 27.4435 4.55641 26.1413 1.29337 26.4344C0.583622 26.4982 -0.322398 24.7221 0.120393 24.1638C3.93218 19.3573 3.93113 12.6396 0.117262 7.83424C-0.325691 7.27613 0.578874 5.50203 1.28853 5.56594C4.55513 5.8601 5.85882 4.55799 5.56548 1.29337C5.5017 0.583632 7.27769 -0.322397 7.83602 0.120377C12.6428 3.93224 19.3613 3.9312 24.167 0.117247C24.7251 -0.325686 26.499 0.57888 26.435 1.28853C26.1406 4.55661 27.444 5.86018 30.7114 5.56595C31.421 5.50205 32.3256 7.276 31.8827 7.83415C28.0698 12.6396 28.0686 19.3574 31.8797 24.1638C32.3224 24.7222 31.4163 26.4982 30.7066 26.4344C27.4427 26.1413 26.1408 27.445 26.435 30.7114Z",
     fill: "currentColor"
   }));
 };
 var Shape50 = function Shape50(_ref50) {
-  var props = _extends({}, _ref50);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref50), _ref50));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M20.3424 32C15.9991 32 15.9991 26.7877 11.6558 26.7877C6.65677 26.7877 0 25.3418 0 20.3413C0 15.9982 5.21085 15.9982 5.21085 11.6551C5.21085 6.65822 6.65677 0 11.6576 0C16.001 0 16.001 5.21238 20.3442 5.21238C25.3414 5.21238 32 6.65822 32 11.6588C32 16.0019 26.7874 16.0019 26.7874 20.345C26.7854 25.351 25.3414 32 20.3424 32Z",
     fill: "currentColor"
   }));
 };
 var Shape51 = function Shape51(_ref51) {
-  var props = _extends({}, _ref51);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref51), _ref51));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     d: "M19.735 32C16 32 16 23.035 12.2649 23.035C7.96595 23.035 0 24.0328 0 19.7341C0 15.9992 8.96387 15.9992 8.96387 12.2643C8.96387 7.96714 7.96595 0 12.2649 0C16 0 16 8.96501 19.735 8.96501C24.0341 8.96501 32 7.96714 32 12.2643C32 15.9992 23.0346 15.9992 23.0346 19.7341C23.0346 24.0328 24.0341 32 19.735 32Z",
     fill: "currentColor"
   }));
 };
 var Shape52 = function Shape52(_ref52) {
-  var props = _extends({}, _ref52);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref52), _ref52));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4369)"
   }, React.createElement("path", {
@@ -835,8 +739,7 @@ var Shape52 = function Shape52(_ref52) {
   }))));
 };
 var Shape53 = function Shape53(_ref53) {
-  var props = _extends({}, _ref53);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref53), _ref53));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4372)"
   }, React.createElement("path", {
@@ -851,8 +754,7 @@ var Shape53 = function Shape53(_ref53) {
   }))));
 };
 var Shape54 = function Shape54(_ref54) {
-  var props = _extends({}, _ref54);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref54), _ref54));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4378)"
   }, React.createElement("path", {
@@ -869,8 +771,7 @@ var Shape54 = function Shape54(_ref54) {
   }))));
 };
 var Shape55 = function Shape55(_ref55) {
-  var props = _extends({}, _ref55);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref55), _ref55));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -879,8 +780,7 @@ var Shape55 = function Shape55(_ref55) {
   }));
 };
 var Shape56 = function Shape56(_ref56) {
-  var props = _extends({}, _ref56);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref56), _ref56));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4383)"
   }, React.createElement("path", {
@@ -897,8 +797,7 @@ var Shape56 = function Shape56(_ref56) {
   }))));
 };
 var Shape57 = function Shape57(_ref57) {
-  var props = _extends({}, _ref57);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref57), _ref57));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4386)"
   }, React.createElement("path", {
@@ -915,8 +814,7 @@ var Shape57 = function Shape57(_ref57) {
   }))));
 };
 var Shape58 = function Shape58(_ref58) {
-  var props = _extends({}, _ref58);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref58), _ref58));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("path", {
     fillRule: "evenodd",
     clipRule: "evenodd",
@@ -925,8 +823,7 @@ var Shape58 = function Shape58(_ref58) {
   }));
 };
 var Shape59 = function Shape59(_ref59) {
-  var props = _extends({}, _ref59);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref59), _ref59));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4392)"
   }, React.createElement("path", {
@@ -943,8 +840,7 @@ var Shape59 = function Shape59(_ref59) {
   }))));
 };
 var Shape60 = function Shape60(_ref60) {
-  var props = _extends({}, _ref60);
-
+  var props = _extends({}, (_objectDestructuringEmpty(_ref60), _ref60));
   return React.createElement("svg", Object.assign({}, defaultProps, props), React.createElement("g", {
     clipPath: "url(#clip0_1_4395)"
   }, React.createElement("path", {
@@ -960,6 +856,8 @@ var Shape60 = function Shape60(_ref60) {
     fill: "white"
   }))));
 };
+
+
 
 var shapes = {
   __proto__: null,
@@ -1026,22 +924,18 @@ var shapes = {
 };
 
 var _templateObject;
-var ShapeWrapper = /*#__PURE__*/goober.styled('span')(_templateObject || (_templateObject = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  display: inline-flex;\n  align-items: center;\n  vertical-align: middle;\n\n  color: #", ";\n"])), function (p) {
+var ShapeWrapper = /*#__PURE__*/goober.styled('span')(_templateObject || (_templateObject = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  display: inline-flex;\n  align-items: center;\n  vertical-align: middle;\n  color: #", ";\n"])), function (p) {
   return p.color || 'currentColor';
 });
 function Shape(props) {
   var name = props.name,
-      _props$size = props.size,
-      size = _props$size === void 0 ? 24 : _props$size;
+    _props$size = props.size,
+    size = _props$size === void 0 ? 24 : _props$size;
   var Tag = shapes[name];
-
   if (!Tag) {
     return null;
   }
-
-  return React.createElement(ShapeWrapper, Object.assign({}, props, {
-    role: "img"
-  }), React.createElement(Tag, {
+  return React.createElement(ShapeWrapper, Object.assign({}, props), React.createElement(Tag, {
     width: size
   }));
 }
@@ -1049,7 +943,7 @@ function Shape(props) {
 var _templateObject$1, _templateObject2;
 goober.setup(React.createElement, undefined, undefined, function (props) {
   for (var prop in props) {
-    if (prop[0] === '$') {
+    if (prop.startsWith('$')) {
       delete props[prop];
     }
   }
@@ -1067,7 +961,8 @@ var Wrapper = /*#__PURE__*/goober.styled('div')(_templateObject$1 || (_templateO
 }, function (p) {
   return p.size;
 }, function (p) {
-  return p.$radius || p.size;
+  var _p$$radius;
+  return (_p$$radius = p.$radius) != null ? _p$$radius : p.size;
 }, function (p) {
   return p.color;
 }, function (p) {
@@ -1075,28 +970,28 @@ var Wrapper = /*#__PURE__*/goober.styled('div')(_templateObject$1 || (_templateO
 }, function (p) {
   return p.$shadow && "\n    box-shadow: \n      0px 3px 8px rgba(18, 18, 18, 0.04),  \n      0px 1px 1px rgba(18, 18, 18, 0.02);\n  ";
 });
-var Text = /*#__PURE__*/goober.styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  /* Reset */\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n\n  font-family: -apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto, sans-serif;\n\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
+var Text = /*#__PURE__*/goober.styled('p')(_templateObject2 || (_templateObject2 = /*#__PURE__*/_taggedTemplateLiteralLoose(["\n  margin: 0;\n  padding: 0;\n  text-align: center;\n  box-sizing: border-box;\n  font-family: -apple-system, BlinkMacSystemFont, \"Inter\", \"Segoe UI\", Roboto, sans-serif;\n  font-size: ", "px;\n  color: #", ";\n  line-height: 0;\n  text-transform: uppercase;\n  font-weight: 500;\n"])), function (p) {
   return Math.round(p.size / 100 * 37);
 }, function (p) {
   return p.color;
 });
 function Avvvatars(params) {
   var _params$style = params.style,
-      style = _params$style === void 0 ? DEFAULTS.style : _params$style,
-      displayValue = params.displayValue,
-      value = params.value,
-      radius = params.radius,
-      _params$size = params.size,
-      size = _params$size === void 0 ? DEFAULTS.size : _params$size,
-      _params$shadow = params.shadow,
-      shadow = _params$shadow === void 0 ? DEFAULTS.shadow : _params$shadow,
-      _params$border = params.border,
-      border = _params$border === void 0 ? DEFAULTS.border : _params$border,
-      _params$borderSize = params.borderSize,
-      borderSize = _params$borderSize === void 0 ? DEFAULTS.borderSize : _params$borderSize,
-      _params$borderColor = params.borderColor,
-      borderColor = _params$borderColor === void 0 ? DEFAULTS.borderColor : _params$borderColor;
-  var name = String(displayValue || value).substring(0, 2);
+    style = _params$style === void 0 ? DEFAULTS.style : _params$style,
+    displayValue = params.displayValue,
+    value = params.value,
+    radius = params.radius,
+    _params$size = params.size,
+    size = _params$size === void 0 ? DEFAULTS.size : _params$size,
+    _params$shadow = params.shadow,
+    shadow = _params$shadow === void 0 ? DEFAULTS.shadow : _params$shadow,
+    _params$border = params.border,
+    border = _params$border === void 0 ? DEFAULTS.border : _params$border,
+    _params$borderSize = params.borderSize,
+    borderSize = _params$borderSize === void 0 ? DEFAULTS.borderSize : _params$borderSize,
+    _params$borderColor = params.borderColor,
+    borderColor = _params$borderColor === void 0 ? DEFAULTS.borderColor : _params$borderColor;
+  var name = String(displayValue != null ? displayValue : value).substring(0, 2);
   var key = randomNumber({
     value: value,
     min: 0,
@@ -1107,6 +1002,8 @@ function Avvvatars(params) {
     min: 1,
     max: 60
   });
+  var isCharacter = style === 'character';
+  var isShape = style === 'shape';
   return React.createElement(Wrapper, {
     size: size,
     color: BACKGROUND_COLORS[key],
@@ -1115,10 +1012,10 @@ function Avvvatars(params) {
     "$borderSize": borderSize,
     "$borderColor": borderColor,
     "$radius": radius
-  }, style === 'character' ? React.createElement(Text, {
+  }, isCharacter && React.createElement(Text, {
     color: TEXT_COLORS[key],
     size: size
-  }, name) : React.createElement(Shape, {
+  }, name), isShape && React.createElement(Shape, {
     name: "Shape" + shapeKey,
     color: SHAPE_COLORS[key],
     size: Math.round(size / 100 * 50)
